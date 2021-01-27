@@ -31,6 +31,17 @@ app.get("/", async (req, res) => {
     }
 });
 
+
+app.get("/preview/", async (req, res) => {
+    let {url} = req.query; 
+
+    const result = await previewPage(url);
+
+    res.set({"Content-Type": "image/png"});
+    
+    res.send(result);
+});
+
 async function search(q) {
     let Results = search_results.get(q);
 
@@ -41,6 +52,21 @@ async function search(q) {
     }
 
     return Results;
+}
+
+async function previewPage(url) {
+    const page = await browser.newPage();
+
+    await page.goto(url, { waitUntil: "networkidle0", timeout: 60000 });
+
+    const screenshot = await page.screenshot({
+        fullPage: true,
+        omitBackground: true
+    });
+
+    await page.close();
+
+    return screenshot;
 }
 
 app.listen(5001);
