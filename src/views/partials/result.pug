@@ -1,4 +1,4 @@
-article(class="message result" data-title=result.title data-url=result.url)
+article(class="message result" data-type="result" data-title=result.title data-url=result.url)
     div(class="message-body")
         a(href=result.url)
             div(class="label")=result.title
@@ -8,8 +8,7 @@ article(class="message result" data-title=result.title data-url=result.url)
         div(class="field has-grouped")
             div(class="control")
                 a(onclick=`previewImage('${result.url}')` data-url=result.url) Preview
-            if result.url.includes("watch?v=")
-                div(class="control")
-                    a(onclick=`watch('${result.url}')`, data-url=result.url, data-type="video") Watch (This uses a Youtube embed)
-                div(class="control")
-                    a(onclick=`listen('${result.url}')`, data-url=result.url, data-type="audio") Listen
+            div(class="control")
+                a(class="hidden", onclick=`watch('${result.url}')`, data-url=result.url, data-type="video") Watch (This uses a Youtube embed)
+            div(class="control hidden")
+                a(class="hidden", onclick=`listen('${result.url}')`, data-url=result.url, data-type="audio") Listen
