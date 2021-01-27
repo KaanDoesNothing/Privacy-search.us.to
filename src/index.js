@@ -1,6 +1,9 @@
 const puppeteer = require("puppeteer");
 const scraper = require("ddg-scraper/src/index");
 const express = require("express");
+const enmap = require("enmap");
+
+const search_results = new enmap({name: "search_results"});
 
 let browser;
 
@@ -20,12 +23,24 @@ app.get("/", async (req, res) => {
     if(q) {
         q = q.toLowerCase();
 
-        let cached = await scraper.scrape(q);
+        const Results = await search(q);
 
-        return res.render("results", {Results: cached, q});
+        return res.render("results", {Results, q});
     }else {
         return res.render("home");
     }
 });
+
+async function search(q) {
+    let Results = search_results.get(q);
+
+    if(!Results) {
+        Results = await scraper.scrape(q);
+
+        search_results.set(q, Results);
+    }
+
+    return Results;
+}
 
 app.listen(5001);
