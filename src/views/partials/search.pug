@@ -8,3 +8,6 @@ form(action="/", method="get")
                     button(class="button is-dark") Go
                     
             li Note: Searching something that hasn't been searched before might take a little longer to load.
+
+            if Results
+                li Found #{Results.length} Results.
