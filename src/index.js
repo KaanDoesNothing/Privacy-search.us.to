@@ -1,5 +1,6 @@
 const puppeteer = require("puppeteer");
 const scraper = require("ddg-scraper/src/index");
+const googleNewsScraper = require("google-news-scraper");
 const express = require("express");
 const enmap = require("enmap");
 
@@ -8,7 +9,7 @@ const search_results = new enmap({name: "search_results"});
 let browser;
 
 (async () => {
-    browser = await puppeteer.launch({headless: false, args: ["--no-sandbox"]});
+    browser = await puppeteer.launch({headless: true, args: ["--no-sandbox"]});
 
     scraper.setBrowser(browser);
 })();
@@ -32,6 +33,15 @@ app.get("/", async (req, res) => {
     }
 });
 
+app.get("/news", async (req, res) => {
+    const articles = await googleNewsScraper({
+        prettyURLs: false,
+        timeframe: "5h",
+        puppeteerArgs: []
+    });
+
+    return res.json({articles: articles});
+});
 
 app.get("/preview/", async (req, res) => {
     let {url} = req.query; 
