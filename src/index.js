@@ -5,7 +5,7 @@ const express = require("express");
 let browser;
 
 (async () => {
-    browser = await puppeteer.launch({headless: false});
+    browser = await puppeteer.launch({headless: false, args: ["--no-sandbox"]});
 
     scraper.setBrowser(browser);
 })();
