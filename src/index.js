@@ -39,6 +39,10 @@ app.get("/", async (req, res) => {
     }
 });
 
+// app.get("/all", (req, res) => {
+//     // return
+// });
+
 app.get("/news", async (req, res) => {
     const articles = await googleNewsScraper({
         prettyURLs: false,
@@ -62,10 +66,22 @@ app.get("/preview/", async (req, res) => {
 async function search(q, cache = true) {
     let Results = search_results.get(q);
 
-    if(!Results || !cache) {
-        Results = await scraper.scrape(q);
+    if(Results) {
+        if(!Results.date) Results.date = 0;
+    }
 
-        search_results.set(q, Results);
+    let cacheExpired = Date.now() - (Results.date || 0) > 21600000;
+
+    if(cacheExpired) {
+        cache = false;
+    }
+
+    if(!Results || !cache) {
+        let scraped = await scraper.scrape(q);
+
+        search_results.set(q, {rows: scraped, date: Date.now()});
+
+        Results = search_results.get(q);
     }
 
     return Results;

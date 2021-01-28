@@ -4,8 +4,8 @@ block body
     include partials/search
 
     div(id="results")
-        if Results.length > 0
-            each result in Results
+        if Results.rows.length > 0
+            each result in Results.rows
                 include partials/result
 
     script(src="/static/js/results.js")
