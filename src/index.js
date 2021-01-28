@@ -9,7 +9,7 @@ const search_results = new enmap({name: "search_results"});
 let browser;
 
 (async () => {
-    browser = await puppeteer.launch({headless: true, args: ["--no-sandbox"]});
+    browser = await puppeteer.launch({headless: false, args: ["--no-sandbox"]});
 
     scraper.setBrowser(browser);
 })();
@@ -20,12 +20,18 @@ app.set("view engine", "pug");
 app.use("/static", express.static("./public"));
 
 app.get("/", async (req, res) => {
-    let {q} = req.query;
+    let {q, cache} = req.query;
 
     if(q) {
         q = q.toLowerCase();
 
-        const Results = await search(q);
+        if(cache) {
+            cache = parseInt(cache);
+        }else {
+            cache = 1;
+        }
+
+        const Results = await search(q, cache === 1 ? true : false);
 
         return res.render("results", {Results, q});
     }else {
@@ -53,10 +59,10 @@ app.get("/preview/", async (req, res) => {
     res.send(result);
 });
 
-async function search(q) {
+async function search(q, cache = true) {
     let Results = search_results.get(q);
 
-    if(!Results) {
+    if(!Results || !cache) {
         Results = await scraper.scrape(q);
 
         search_results.set(q, Results);
