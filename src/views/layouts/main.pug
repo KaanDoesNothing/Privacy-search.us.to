@@ -7,44 +7,9 @@ html(lang="en")
 
         link(rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css")
         //- link(rel="stylesheet" type="text/css" href="/static/bundle/dist/index.css")
+
+        include ../styles/main
     body
         include ../partials/navbar
 
         block body
-
-        style.
-            html {
-                background: #121212;
-            }
-
-            .result {
-                margin-left: 10%;
-                margin-right: 10%;
-                margin-top: 2%;
-                background: #222222;
-            }
-
-            .result .message-body {
-                color: #FFFFFF !important;
-                border-color: #323232;
-            }
-
-            .result .label {
-                color: #FFFFFF !important;
-            }
-
-            .text-white {
-                color: #FFFFFF;
-            }
-
-            @media(max-width: 768px) {
-                .result {
-                    margin-left: 2%;
-                    margin-right: 2%;
-                    //- overflow-y: scroll;
-                }
-            }
-
-            .hidden {
-                display: none;
-            }
