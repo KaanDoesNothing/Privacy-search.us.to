@@ -1,8 +1,10 @@
 script.
-    let searchButton = document.querySelector("#search-button");
+    document.addEventListener("DOMContentLoaded", () => {
+        let searchButton = document.querySelector("#search-button");
 
-    searchButton.addEventListener("click", (e) => {
-        searchButton.innerHTML = `
-            <div class="loader"></div>
-        `;
+        searchButton.addEventListener("click", (e) => {
+            searchButton.innerHTML = `
+                <div class="loader"></div>
+            `;
+        });
     });
