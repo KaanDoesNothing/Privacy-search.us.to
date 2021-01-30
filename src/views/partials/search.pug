@@ -3,11 +3,15 @@ form(action="/", method="get")
         div(class="message-body")
             div(class="field has-addons")
                 div(class="control is-expanded")
-                    input(class="input" type="text" name="q" placeholder="Cute doggos")
+                    input(class="input", type="text", name="q", placeholder="Cute doggos")
                 div(class="control")
-                    button(class="button is-dark") Go
+                    button(class="button is-dark", id="search-button")
+                        label Go
                     
             li Note: Searching something that hasn't been searched before might take a little longer to load.
 
             if Results
                 li Found #{Results.rows.length} Results.
+
+
+include ../scripts/search
