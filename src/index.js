@@ -44,13 +44,17 @@ app.get("/", async (req, res) => {
 // });
 
 app.get("/news", async (req, res) => {
-    const articles = await googleNewsScraper({
-        prettyURLs: false,
-        timeframe: "5h",
-        puppeteerArgs: []
-    });
-
-    return res.json({articles: articles});
+    try {
+        const articles = await googleNewsScraper({
+            prettyURLs: false,
+            timeframe: "5h",
+            puppeteerArgs: []
+        });
+    
+        return res.json({articles: articles});
+    }catch(err) {
+        return res.json({error: "Error"});
+    }
 });
 
 app.get("/preview/", async (req, res) => {

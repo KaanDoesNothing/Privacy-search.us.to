@@ -7,6 +7,10 @@ async function fetchNews() {
 
     let res = await fetch("/news").then(res => res.json());
 
+    if(res.error) {
+        return document.querySelectorAll("#news").remove();
+    }
+
     news.innerHTML = "";
 
     res.articles.forEach(article => {
