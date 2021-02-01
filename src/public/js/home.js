@@ -8,7 +8,7 @@ async function fetchNews() {
     let res = await fetch("/news").then(res => res.json());
 
     if(res.error) {
-        return document.querySelectorAll("#news").remove();
+        return document.querySelector("#news").style.display = "none";
     }
 
     news.innerHTML = "";
