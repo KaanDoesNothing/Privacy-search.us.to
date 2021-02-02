@@ -102,6 +102,8 @@ async function search(q, cache = true) {
 
     if(Results) {
         if(!Results.date) Results.date = 0;
+    }else {
+        Results = {date: 0};
     }
 
     let cacheExpired = Date.now() - (Results.date || 0) > 21600000;
