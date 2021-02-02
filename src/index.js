@@ -5,6 +5,7 @@ const express = require("express");
 const enmap = require("enmap");
 
 const search_results = new enmap({name: "search_results"});
+const news_results = new enmap({name: "news_results"});
 
 let browser;
 
@@ -39,10 +40,6 @@ app.get("/", async (req, res) => {
     }
 });
 
-// app.get("/all", (req, res) => {
-//     // return
-// });
-
 app.get("/news", async (req, res) => {
     try {
         const articles = await googleNewsScraper({
@@ -50,12 +47,21 @@ app.get("/news", async (req, res) => {
             timeframe: "5h",
             puppeteerArgs: ["--no-sandbox"]
         });
+
+        news_results.set(Date.now().toString(), articles);
     
         return res.json({articles: articles});
     }catch(err) {
         console.log(err);
         return res.json({error: "Error"});
     }
+});
+
+app.get("/news/all", async (req, res) => {
+    let keys = news_results.keyArray();
+    let results = keys.map(key => news_results.get(key));
+
+    return res.json({articles: results});
 });
 
 app.get("/preview/", async (req, res) => {
