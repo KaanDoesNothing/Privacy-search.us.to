@@ -53,6 +53,7 @@ app.get("/news", async (req, res) => {
     
         return res.json({articles: articles});
     }catch(err) {
+        console.log(err);
         return res.json({error: "Error"});
     }
 });
