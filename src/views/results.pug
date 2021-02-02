@@ -8,8 +8,4 @@ block body
             each result in Results.rows
                 include partials/result
 
-    script(src="/static/js/results.js")
-
-    script.
-        document.addEventListener("DOMContentLoaded", load());
-        //- load();
+    include scripts/results

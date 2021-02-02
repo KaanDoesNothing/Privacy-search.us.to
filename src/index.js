@@ -4,6 +4,10 @@ const googleNewsScraper = require("google-news-scraper");
 const express = require("express");
 const enmap = require("enmap");
 
+const isDebugging = require("./isDebugging")();
+
+console.log(`Debugging: ${isDebugging}`);
+
 const search_results = new enmap({name: "search_results"});
 const news_results = new enmap({name: "news_results"});
 
@@ -19,6 +23,10 @@ const app = express();
 
 app.set("view engine", "pug");
 app.use("/static", express.static("./public"));
+
+if(!isDebugging) {
+    app.set("view cache", true);
+}
 
 app.get("/", async (req, res) => {
     let {q, cache} = req.query;
