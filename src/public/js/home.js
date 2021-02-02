@@ -26,6 +26,4 @@ async function fetchNews() {
         </article>
         `;
     });
-
-    // newsDiv.innerHTML = "Loading...";
 }

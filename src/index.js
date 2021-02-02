@@ -62,7 +62,10 @@ app.get("/preview/", async (req, res) => {
 
     const result = await previewPage(url);
 
-    res.set({"Content-Type": "image/png"});
+    res.set({
+        "Content-Type": "image/png",
+        "Content-Disposition": "attachment; filename=screenshot.png"
+    });
     
     res.send(result);
 });
