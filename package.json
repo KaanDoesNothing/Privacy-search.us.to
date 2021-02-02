@@ -10,6 +10,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "axios": "^0.21.1",
+    "cheerio": "^1.0.0-rc.5",
     "ddg-scraper": "github:KaanDoesNothing/ddg-scraper",
     "enmap": "^5.8.4",
     "express": "^4.17.1",

@@ -3,6 +3,8 @@ const scraper = require("ddg-scraper/src/index");
 const googleNewsScraper = require("google-news-scraper");
 const express = require("express");
 const enmap = require("enmap");
+const cheerio = require("cheerio");
+const axios = require("axios").default;
 
 const isDebugging = require("./isDebugging")();
 
@@ -63,6 +65,16 @@ app.get("/news", async (req, res) => {
         console.log(err);
         return res.json({error: "Error"});
     }
+});
+
+app.get("/news/redirect", async (req, res) => {
+    let html = (await axios.get(req.query.url)).data;
+
+    let $ = cheerio.load(html);
+
+    let url = $("[rel='nofollow']")[0].attribs.href;
+
+    return res.redirect(url);
 });
 
 app.get("/news/all", async (req, res) => {
