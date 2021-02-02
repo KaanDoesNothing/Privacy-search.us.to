@@ -48,7 +48,7 @@ app.get("/news", async (req, res) => {
         const articles = await googleNewsScraper({
             prettyURLs: false,
             timeframe: "5h",
-            puppeteerArgs: []
+            puppeteerArgs: ["--no-sandbox"]
         });
     
         return res.json({articles: articles});
