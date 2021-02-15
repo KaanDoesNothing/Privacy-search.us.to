@@ -19,6 +19,12 @@ let browser;
     browser = await puppeteer.launch({headless: false, args: ["--no-sandbox"]});
 
     scraper.setBrowser(browser);
+
+    if(isDebugging) {
+        let currentTab = (await browser.pages())[0];
+    
+        currentTab.goto(`http://localhost:5001/`);
+    }
 })();
 
 const app = express();
@@ -48,6 +54,22 @@ app.get("/", async (req, res) => {
     }else {
         return res.render("home");
     }
+});
+
+app.get("/api/search", async (req, res) => {
+    let {q, cache} = req.query;
+
+    q = q.toLowerCase();
+
+    if(cache) {
+        cache = parseInt(cache);
+    }else {
+        cache = 1;
+    }
+
+    const Results = await search(q, cache === 1 ? true : false);
+
+    return res.json({results: Results});
 });
 
 app.get("/news", async (req, res) => {
