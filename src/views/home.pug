@@ -3,16 +3,19 @@ extends layouts/main
 block body
     include partials/search
 
-    div(class="has-text-centered", id="news")
-        article(class="message result")
-            div(class="message-body")
-                h2(class="label") News
-                div(id="content")
-                    label Loading....
+    if !query.newsDisabled
+        div(class="has-text-centered", id="news")
+            article(class="message result")
+                div(class="message-body")
+                    h2(class="label") News
+                    div(id="content")
+                        label Loading....
+
+        include scripts/home
 
     //- script(src="/static/js/home.js")
     
-    include scripts/home
+    //- include scripts/home
         //- fetch("/google/news").then(res => res.json().then(res => {
         //-     console.log(res);
         //- }));

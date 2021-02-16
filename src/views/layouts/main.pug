@@ -5,9 +5,13 @@ html(lang="en")
         meta(name="viewport", content="width=device-width, initial-scale=1.0")
         title Search Engine
 
-        link(rel="stylesheet", type="text/css", href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css")
-        
-        include ../styles/main
+        if !query.cssDisabled
+            link(rel="stylesheet", type="text/css", href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css")
+            
+            include ../styles/main
+
+        if query.customCSS
+            link(rel="stylesheet", type="text/css", href=query.customCSS)
     body
         include ../partials/navbar
 

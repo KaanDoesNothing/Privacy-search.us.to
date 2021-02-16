@@ -36,6 +36,12 @@ if(!isDebugging) {
     app.set("view cache", true);
 }
 
+app.get("*", (req, res, next) => {
+    res.locals.query = req.query;
+
+    next();
+});
+
 app.get("/", async (req, res) => {
     let {q, cache} = req.query;
 
