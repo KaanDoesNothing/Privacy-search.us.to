@@ -143,7 +143,7 @@ async function search(q, cache = true) {
     }
 
     if(!Results || !cache) {
-        let scraped = await scraper.scrape(q);
+        let scraped = await scraper.scrape(q).catch(err => Results = []);
 
         search_results.set(q, {rows: scraped, date: Date.now()});
 
