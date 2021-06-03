@@ -156,16 +156,21 @@ async function search(q, cache = true) {
 async function previewPage(url) {
     const page = await browser.newPage();
 
-    await page.goto(url, { waitUntil: "networkidle0", timeout: 60000 });
+    try {
+        await page.goto(url, { waitUntil: "networkidle0", timeout: 60000 });
 
-    const screenshot = await page.screenshot({
-        fullPage: true,
-        omitBackground: true
-    });
+        const screenshot = await page.screenshot({
+            fullPage: true,
+            omitBackground: true
+        });
 
-    await page.close();
+        await page.close();
 
-    return screenshot;
+        return screenshot;
+    }catch(err) {
+        console.log("Page timed out.");
+        await page.close();
+    }
 }
 
 app.listen(5001);
