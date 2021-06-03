@@ -18,6 +18,7 @@
     "google-news-scraper": "^1.0.6",
     "jstransformer-uglify-js": "^1.2.0",
     "pug": "^3.0.0",
-    "puppeteer": "^5.5.0"
+    "puppeteer": "^5.5.0",
+    "socket.io": "^4.0.0"
   }
 }

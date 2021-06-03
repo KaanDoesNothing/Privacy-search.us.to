@@ -16,7 +16,7 @@ const news_results = new enmap({name: "news_results"});
 let browser;
 
 (async () => {
-    browser = await puppeteer.launch({headless: false, args: ["--no-sandbox"]});
+    browser = await puppeteer.launch({headless: true, args: ["--no-sandbox"]});
 
     scraper.setBrowser(browser);
 
@@ -31,6 +31,8 @@ const app = express();
 
 app.set("view engine", "pug");
 app.use("/static", express.static("./public"));
+
+app.use("/view", (require("./routes/view")));
 
 if(!isDebugging) {
     app.set("view cache", true);
