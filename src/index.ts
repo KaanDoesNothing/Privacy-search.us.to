@@ -1,6 +1,6 @@
 import {app, start} from "./server";
 
-import {getResults} from "./main";
+import {getResults} from "./scrape_manager";
 import { takeScreenshot } from "./utils";
 import { port } from "./config.json";
 
