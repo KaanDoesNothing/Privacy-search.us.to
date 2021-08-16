@@ -4,8 +4,7 @@ article(class="message result", data-type="result", data-title=result.title, dat
     div(class="message-body")
         a(href=url)
             div(class="label result_title")=result.title
-        a(href=url)
-            div(class="result_link")=result.url
+        a(class="label result_link", href=url)=result.url
         div(class="result_content")=result.content
         
         br
