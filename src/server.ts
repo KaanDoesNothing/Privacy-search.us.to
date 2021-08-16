@@ -7,10 +7,12 @@ app.set("views", path.join(__dirname, "..", "/website/views"));
 app.use("/static", express.static(path.join(__dirname, "..", "/website/public")));
 
 export const start = async (port: number = 7009) => {
-    try {
-      await app.listen(port)
-    } catch (err) {
-      console.log(err);
-      process.exit(1)
-    }
+  try {
+    await app.listen(port)
+  } catch (err) {
+    console.log(err);
+    process.exit(1)
   }
+}
+
+export const appVersion = Date.now();

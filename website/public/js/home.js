@@ -1,6 +1,6 @@
-function load() {
+document.addEventListener("DOMContentLoaded", () => {
     fetchNews();
-}
+});
 
 async function fetchNews() {
     const news = document.querySelector("#content");
@@ -17,7 +17,7 @@ async function fetchNews() {
         news.innerHTML += `
         <article class="message result">
             <div class="message-body">
-                <a href="${article.link}">
+                <a href="/news/redirect?url=${article.link}">
                     <label>${article.title}</label>
                 </a>
                 <br>

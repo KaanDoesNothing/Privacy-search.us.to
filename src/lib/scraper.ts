@@ -5,12 +5,15 @@ export class Scraper {
     public name: string;
     public results: string[];
     public query: string;
+    public times: number;
 
-    constructor({query}) {
+    constructor(options) {
         this.name = path.basename(__filename);
 
-        this.query = query;
+        this.query = options.query;
         this.results = [];
+
+        this.times = options.times || 1;
     }
 
     public pushToResults(data) {

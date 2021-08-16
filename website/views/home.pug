@@ -11,11 +11,5 @@ block body
                     div(id="content")
                         label Loading....
 
-        include scripts/home
-
-    //- script(src="/static/js/home.js")
-    
-    //- include scripts/home
-        //- fetch("/google/news").then(res => res.json().then(res => {
-        //-     console.log(res);
-        //- }));
+    script(src=`/static/js/home.js`, defer)
+        //- include scripts/home

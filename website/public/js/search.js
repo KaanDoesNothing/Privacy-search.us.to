@@ -1,4 +1,4 @@
-function load() {
+document.addEventListener("DOMContentLoaded", () => {
     const results = document.querySelectorAll(`[data-type="result"]`);
 
     for (let result in results) {
@@ -10,14 +10,14 @@ function load() {
             }
         }
     }
-}
+});
 
 async function previewImage(url) {
     let button = document.querySelector(`a[data-url='${url}']`);
 
     button.innerHTML = "Generating preview...";
 
-    const image = await fetch(`/preview?url=${url}`).then(res => res.blob());
+    const image = await fetch(`/screenshot?url=${url}`).then(res => res.blob());
 
     if(image.size < 1000) return button.innerHTML = "Failed to load, click to retry.";
 
