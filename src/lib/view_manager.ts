@@ -68,8 +68,8 @@ io.on("connection", async (socket) => {
 
                 const screenshot = await page.screenshot({
                     fullPage: true,
-                    omitBackground: true,
-                    quality: 40,
+                    omitBackground: false,
+                    quality: 20,
                     type: "jpeg"
                 });
         
