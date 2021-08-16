@@ -9,6 +9,10 @@ function getMousePosition() {
     };
 }
 
+$(document).on("scroll", (e) => {
+    console.log(e);
+});
+
 $("#screen").on("mousemove", () => {
     socket.emit("input", {
         type: "mouse_move",

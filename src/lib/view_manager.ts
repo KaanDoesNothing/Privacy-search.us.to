@@ -1,13 +1,21 @@
+import { PuppeteerBlocker } from "@cliqz/adblocker-puppeteer";
 import puppeteer from "puppeteer";
 import { io } from "../server";
+import { keyboardMap } from "./keyboardmap";
+import crossfetch from "cross-fetch";
+import applyEvasions from "./applyEvasions";
 
 io.on("connection", async (socket) => {
+    let interval;
     console.log("Connected");
 
     let browser = await puppeteer.launch({headless: true, args: ["--no-sandbox"]});
     let page = (await browser.pages())[0];
-    let interval;
 
+    let blocker = await PuppeteerBlocker.fromPrebuiltAdsAndTracking(crossfetch);
+    
+    await blocker.enableBlockingInPage(page);
+    await applyEvasions(page);
     // await page.setViewport({width: 1280, height: 720});
 
     socket.emit("browser_loaded", true);
@@ -18,23 +26,32 @@ io.on("connection", async (socket) => {
         }else if(data.type === "mouse_click") {
             page.mouse.click(data.x, data.y);
         }else if(data.type === "key" && data.action) {
-            let key = parseInt(data.key);
-            let finalKey = "";
-            if(key === 8) {
-                finalKey = "Backspace";
-            }else if(key === 17) {
-                finalKey = "Control";
-            } else {
-                finalKey = String.fromCharCode(parseInt(data.key)).toLowerCase();
-            }
+            let key = keyboardMap[data.key];
 
             if(data.action === "up") {
                 //@ts-ignore
-                page.keyboard.up(finalKey).catch(err => console.log(`Error key: ${key}`));
+                page.keyboard.up(key).catch(err => console.log(`Error key: ${key}`));
             }else {
                 //@ts-ignore
-                page.keyboard.down(finalKey).catch(err => console.log(`Error key: ${key}`));
+                page.keyboard.down(key).catch(err => console.log(`Error key: ${key}`));
             }
+            // let key = parseInt(data.key);
+            // let finalKey = "";
+            // if(key === 8) {
+            //     finalKey = "Backspace";
+            // }else if(key === 17) {
+            //     finalKey = "Control";
+            // } else {
+            //     finalKey = String.fromCharCode(parseInt(data.key)).toLowerCase();
+            // }
+
+            // if(data.action === "up") {
+            //     //@ts-ignore
+            //     page.keyboard.up(finalKey).catch(err => console.log(`Error key: ${key}`));
+            // }else {
+            //     //@ts-ignore
+            //     page.keyboard.down(finalKey).catch(err => console.log(`Error key: ${key}`));
+            // }
         }
     });
 
