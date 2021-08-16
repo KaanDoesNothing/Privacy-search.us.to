@@ -1,14 +1,16 @@
-article(class="message result" data-type="result" data-title=result.title data-url=result.url)
+- let url = result.url.startsWith("http") ? result.url : `https://${result.url}`;
+
+article(class="message result", data-type="result", data-title=result.title, data-url=result.url)
     div(class="message-body")
-        a(href=result.url)
-            div(class="label")=result.title
-        a(href=result.url)=result.url
-        div=result.content
+        a(href=url)
+            div(class="label result_title")=result.title
+        a(href=url)
+            div(class="result_link")=result.url
+        div(class="result_content")=result.content
         
-        div(class="field has-grouped")
-            div(class="control")
-                a(onclick=`previewImage('${result.url}')` data-url=result.url) Preview
-            div(class="control")
-                a(class="hidden", onclick=`watch('${result.url}')`, data-url=result.url, data-type="video") Watch (This uses a Youtube embed)
-            div(class="control hidden")
-                a(class="hidden", onclick=`listen('${result.url}')`, data-url=result.url, data-type="audio") Listen
+        br
+
+        div(class="buttons")
+            a(class="button is-dark", onclick=`previewImage('${result.url}')` data-url=result.url) Preview
+            a(class="button is-dark hidden", onclick=`watch('${result.url}')`, data-url=result.url, data-type="video") Watch
+            a(class="button is-dark hidden", onclick=`listen('${result.url}')`, data-url=result.url, data-type="audio") Listen
