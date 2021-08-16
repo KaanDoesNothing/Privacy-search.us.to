@@ -1,0 +1,14 @@
+article(class="message result" data-type="result" data-title=result.title data-url=result.url)
+    div(class="message-body")
+        a(href=result.url)
+            div(class="label")=result.title
+        a(href=result.url)=result.url
+        div=result.content
+        
+        div(class="field has-grouped")
+            div(class="control")
+                a(onclick=`previewImage('${result.url}')` data-url=result.url) Preview
+            div(class="control")
+                a(class="hidden", onclick=`watch('${result.url}')`, data-url=result.url, data-type="video") Watch (This uses a Youtube embed)
+            div(class="control hidden")
+                a(class="hidden", onclick=`listen('${result.url}')`, data-url=result.url, data-type="audio") Listen

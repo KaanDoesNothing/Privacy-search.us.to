@@ -1,0 +1,11 @@
+extends layouts/main
+
+block body
+    include partials/search
+
+    div(id="results")
+        if results.length > 0
+            each result in results
+                include partials/result
+
+    include scripts/results
