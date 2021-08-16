@@ -1,3 +1,5 @@
+let button_states = {};
+
 document.addEventListener("DOMContentLoaded", () => {
     const results = document.querySelectorAll(`[data-type="result"]`);
 
@@ -13,15 +15,22 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 async function previewImage(url) {
-    let button = document.querySelector(`a[data-url='${url}']`);
+    let button = document.querySelector(`img[data-url="${url}"]`) || document.querySelector(`a[data-url='${url}']`)
 
-    button.innerHTML = "Generating preview...";
+    console.log(button.tagName);
+    if(button.tagName === "A") {
+        button_states[url] = button.outerHTML;
 
-    const image = await fetch(`/screenshot?url=${url}`).then(res => res.blob());
+        button.innerHTML = `Generating Preview &nbsp; <div class="loader"></div>`;
 
-    if(image.size < 1000) return button.innerHTML = "Failed to load, click to retry.";
+        const image = await fetch(`/screenshot?url=${url}`).then(res => res.blob());
 
-    button.outerHTML = `<img src="${URL.createObjectURL(image)}">`;
+        if(image.size < 1000) return button.innerHTML = "Failed to load, click to retry.";
+
+        button.outerHTML = `<img src="${URL.createObjectURL(image)}" data-url="${url}" onclick="previewImage('${url}')">`;
+    }else {
+        button.outerHTML = button_states[url];
+    }
 }
 
 async function watch(url) {

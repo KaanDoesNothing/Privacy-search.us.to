@@ -5,3 +5,17 @@
 .result_link {
     text-decoration: none !important;
 }
+
+.preview_modal {
+    display: none;
+    position: absolute;
+    align-items: center;
+    justify-content: center;
+    margin-right: 10%;
+    margin-left: 10%;
+    margin-top: 2%;
+    width: 80%;
+    overflow-y: scroll;
+    /* background-color: aqua; */
+    z-index: 200;
+}
