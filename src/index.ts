@@ -2,6 +2,7 @@ import {app, start} from "./server";
 
 import {getResults} from "./main";
 import { takeScreenshot } from "./utils";
+import { port } from "./config.json";
 
 app.use((req, res, done) => {
     res.locals.query = {};
@@ -32,4 +33,4 @@ app.get("/screenshot", async (req, res) => {
     return res.send(screenshot);
 });
 
-start();
+start(port);

@@ -12,6 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const server_1 = require("./server");
 const main_1 = require("./main");
 const utils_1 = require("./utils");
+const config_json_1 = require("./config.json");
 server_1.app.use((req, res, done) => {
     res.locals.query = {};
     done();
@@ -32,4 +33,4 @@ server_1.app.get("/screenshot", (req, res) => __awaiter(void 0, void 0, void 0, 
     });
     return res.send(screenshot);
 }));
-server_1.start();
+server_1.start(config_json_1.port);
