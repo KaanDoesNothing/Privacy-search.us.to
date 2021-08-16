@@ -11,7 +11,7 @@ form(action="/search", method="get")
             //- li Note: Searching something that hasn't been searched before might take a little longer to load.
 
             if results
-                li Found #{results.length} Results.
+                li Found #{results.length} Results in #{load_time.formatted} #{load_time.formatted === 1 ? "Second" : "Seconds"}.
 
 
 include ../scripts/search

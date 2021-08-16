@@ -1,3 +1,7 @@
+import dayjs from "dayjs";
+import duration from "dayjs/plugin/duration";
+dayjs.extend(duration);
+
 import {app, start} from "./server";
 
 import {getResults} from "./scrape_manager";
@@ -17,9 +21,19 @@ app.get("/", async (req, res) => {
 app.get("/search", async (req, res) => {
     let query = req.query.q;
 
+    let startTime = Date.now();
+    
     let results = await getResults({query});
 
-    return res.render("search", {results});
+    let endTime = Date.now();
+
+    return res.render("search", {
+        results,
+        load_time: {
+            formatted: dayjs.duration(endTime - startTime).seconds(),
+            raw: endTime - startTime
+        }
+    });
 });
 
 app.get("/screenshot", async (req, res) => {
