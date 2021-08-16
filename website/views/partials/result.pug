@@ -11,5 +11,6 @@ article(class="message result", data-type="result", data-title=result.title, dat
 
         div(class="buttons")
             a(class="button is-dark", onclick=`previewImage('${result.url}')` data-url=result.url) Preview
+            a(class="button is-dark", href=`/view?url=${url}` data-url=result.url) Remotely view
             a(class="button is-dark hidden", onclick=`watch('${result.url}')`, data-url=result.url, data-type="video") Watch
             a(class="button is-dark hidden", onclick=`listen('${result.url}')`, data-url=result.url, data-type="audio") Listen

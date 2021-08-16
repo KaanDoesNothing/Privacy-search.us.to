@@ -64,7 +64,15 @@ socket.on("browser_loaded", () => {
 });
 
 socket.on("screen_size_updated", () => {
-    socket.emit("goto", "https://www.duckduckgo.com/");
+    let query = new URLSearchParams(window.location.search);
+
+    console.log(query.has("url"));
+
+    if(query.has("url")) {
+        socket.emit("goto", query.get("url"));
+    }else {
+        socket.emit("goto", "https://www.duckduckgo.com/");
+    }
 });
 
 socket.on("update_frame", (image) => {
