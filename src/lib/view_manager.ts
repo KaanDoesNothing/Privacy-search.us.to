@@ -4,7 +4,7 @@ import { io } from "../server";
 io.on("connection", async (socket) => {
     console.log("Connected");
 
-    let browser = await puppeteer.launch({headless: true, args: ["--no-sandbox"]});
+    let browser = await puppeteer.launch({headless: false, args: ["--no-sandbox"]});
     let page = (await browser.pages())[0];
     await page.setViewport({width: 1280, height: 720});
 
@@ -45,7 +45,7 @@ io.on("connection", async (socket) => {
         }catch(err) {
             console.log(err);
         }
-    }, 50);
+    }, 500);
 
     socket.on("disconnect", async () => {
         clearInterval(interval);
