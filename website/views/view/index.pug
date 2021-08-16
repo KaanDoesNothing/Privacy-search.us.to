@@ -6,7 +6,61 @@ html(lang="en")
         meta(name="viewport", content="width=device-width, initial-scale=1.0")
         title View
         script(src="https://cdn.socket.io/3.1.3/socket.io.min.js")
-        script.
-            const socket = io("http://localhost:5002/view");
+        script(src="https://code.jquery.com/jquery-3.6.0.min.js")
 
     body
+        img(id="screen", style="overflow-y: hidden;", onmousemove="getMousePosition")
+        script.
+            const socket = io();
+
+            function getMousePosition() {
+                let event = window.event;
+
+                return {x: event.clientX, y: event.clientY};
+            }
+
+            //- function mouseMove(event) {
+            //-     get
+            //- }
+
+            $("#screen").on("mousemove", () => {
+                socket.emit("input", {type: "mouse_move", ...getMousePosition()});
+            });
+
+            $("#screen").on("click", () => {
+                socket.emit("input", {type: "mouse_click", ...getMousePosition()});
+            });
+
+            $(document).keyup((e) => {
+                e.preventDefault();
+
+                socket.emit("input", {type: "key", key: e.which});
+            });
+
+            socket.on("connection", () => {
+                console.log("Conencted");
+            });
+
+            socket.on("browser_loaded", () => {
+                let body = document.querySelector("#screen");
+                let data = {width: $("#screen").width(), height: $("#screen").height()};
+                console.log(data);
+                socket.emit("set_screen_size", data);
+            });
+
+            socket.on("screen_size_updated", () => {
+                socket.emit("goto", "https://www.duckduckgo.com/");
+            });
+
+            socket.on("update_frame", (image) => {
+                var blob = new Blob([image])
+
+                var reader = new FileReader();
+                reader.onload = function(event){
+                    var base64 =   event.target.result 
+                    let img = document.querySelector("#screen");
+                    img.src = base64;
+                };
+
+                reader.readAsDataURL(blob);
+            });

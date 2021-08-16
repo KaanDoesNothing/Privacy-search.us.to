@@ -20,6 +20,10 @@ app.get("/", async (req, res) => {
     return res.render("home");
 });
 
+app.get("/view", async (req, res) => {
+    return res.render("view/index");
+});
+
 app.get("/search", async (req, res) => {
     let query = req.query.q;
 
