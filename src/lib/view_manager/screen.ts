@@ -2,7 +2,7 @@ import { cache } from "./cache";
 
 export default ({page, socket}) => {
     let interval;
-    
+
     socket.on("set_screen_size", async (data) => {
         await page.setViewport(data).catch(err => console.log("Couldn't set viewport!"));
         
@@ -10,7 +10,7 @@ export default ({page, socket}) => {
 
         interval = setInterval(async () => {
             try {
-                if(!page) clearInterval(interval);
+                if(page.isClosed()) return clearInterval(interval);
                 let viewport = page.viewport();
 
                 if(viewport.width === 0 && viewport.height === 0) return;
