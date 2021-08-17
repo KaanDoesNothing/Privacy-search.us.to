@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "main": "./build/index.js",
   "scripts": {
-    "start": "ts-node ."
+    "start": "node .",
+    "heroku-postbuild": "npm run tsc"
   },
   "license": "MIT",
   "devDependencies": {
