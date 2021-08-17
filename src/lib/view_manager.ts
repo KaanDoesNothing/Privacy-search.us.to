@@ -20,18 +20,24 @@ io.on("connection", async (socket) => {
 
     socket.emit("browser_loaded", true);
 
-    socket.on("input", (data) => {
+    socket.on("input", async (data) => {
         if(data.type === "mouse_move") {
-            page.mouse.move(data.x, data.y);
+            await page.mouse.move(data.x, data.y);
         }else if(data.type === "mouse_click") {
-            page.mouse.click(data.x, data.y);
+            await page.mouse.click(data.x, data.y);
         }else if(data.type === "key" && data.action) {
             let key = keyboardMap[data.key];
 
             if(key === "Up" || key === "Down") {
                 if(key === "Down") {
-                    page.evaluate(() => {
+                    await page.evaluate(() => {
                         window.scrollBy(0, 100); 
+                    });
+                }
+
+                if(key === "Up") {
+                    await page.evaluate(() => {
+                        window.scrollBy(0, -100); 
                     });
                 }
                 return;
@@ -39,10 +45,10 @@ io.on("connection", async (socket) => {
 
             if(data.action === "up") {
                 //@ts-ignore
-                page.keyboard.up(key).catch(err => console.log(`Error key: ${key}`));
+                await page.keyboard.up(key).catch(err => console.log(`Error key: ${key}`));
             }else {
                 //@ts-ignore
-                page.keyboard.down(key).catch(err => console.log(`Error key: ${key}`));
+                await page.keyboard.down(key).catch(err => console.log(`Error key: ${key}`));
             }
         }
     });
@@ -59,7 +65,7 @@ io.on("connection", async (socket) => {
                 if(viewport.width === 0 && viewport.height === 0) return;
 
                 const screenshot = await page.screenshot({
-                    fullPage: true,
+                    fullPage: false,
                     omitBackground: false,
                     quality: 20,
                     type: "jpeg"
