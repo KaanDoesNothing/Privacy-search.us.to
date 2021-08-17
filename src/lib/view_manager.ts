@@ -9,7 +9,16 @@ io.on("connection", async (socket) => {
     let interval;
     console.log("Connected");
 
-    let browser = await puppeteer.launch({headless: true, args: ["--no-sandbox", "--single-process"]});
+    let browser = await puppeteer.launch({headless: true, args: [
+        "--no-sandbox",
+        "--disable-setuid-sandbox",
+        "--disable-dev-shm-usage",
+        "--disable-accelerated-2d-canvas",
+        "--no-first-run",
+        "--no-zygote",
+        "--single-process",
+        "--disable-gpu"
+    ]});
     let page = (await browser.pages())[0];
 
     let blocker = await PuppeteerBlocker.fromPrebuiltAdsAndTracking(crossfetch);
@@ -75,7 +84,7 @@ io.on("connection", async (socket) => {
             }catch(err) {
                 console.log("Screenshot error");
             }
-        }, 100);
+        }, 500);
     });
 
     socket.on("goto", (url) => {
