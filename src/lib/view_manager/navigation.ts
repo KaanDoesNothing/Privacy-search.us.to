@@ -5,14 +5,14 @@ export default ({page, socket, cache}) => {
     });
 
     socket.on("go_back", async () => {
-        await page.goBack();
+        await page.goBack().catch(err => console.log("Couldn't go back!"));
     });
 
     socket.on("go_forward", async () => {
-        await page.goForward();
+        await page.goForward().catch(err => console.log("Couldn't go forward!"));
     });
 
     socket.on("reload", async () => {
-        await page.reload();
+        await page.reload().catch(err => console.log("Couldn't reload!"));
     });
 }
