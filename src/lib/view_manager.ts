@@ -9,7 +9,7 @@ io.on("connection", async (socket) => {
     let interval;
     console.log("Connected");
 
-    let browser = await puppeteer.launch({headless: true, args: ["--no-sandbox --single-process"]});
+    let browser = await puppeteer.launch({headless: true, args: ["--no-sandbox", "--single-process"]});
     let page = (await browser.pages())[0];
 
     let blocker = await PuppeteerBlocker.fromPrebuiltAdsAndTracking(crossfetch);

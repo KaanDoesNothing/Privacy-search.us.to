@@ -5,21 +5,12 @@ let cache = new Map();
 let timeouts = {};
 
 function getMousePosition(self, e) {
-    // let event = window.event;
-
-    // return {
-    //     x: event.clientX,
-    //     y: event.clientY
-    // };
-
     let parentOffset = $(self).parent().offset();
 
     let x = e.pageX - parentOffset.left;
     let y = e.pageY - parentOffset.top;
 
     cache.set("mouse_position", {x, y});
-
-    console.log(x, y);
 
     return {
         x,
@@ -38,6 +29,10 @@ function isFocusedOnBrowserScreen() {
 }
 
 $(document).on("scroll", (e) => {
+    console.log(e);
+});
+
+$(document).on("wheel", (e) => {
     console.log(e);
 });
 
