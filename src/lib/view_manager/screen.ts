@@ -28,10 +28,4 @@ export default ({page, socket}) => {
             }
         }, 500);
     });
-
-    socket.on("disconnect", () => {
-        console.log("Disconnected.");
-        clearInterval(interval);
-    });
-
 }
