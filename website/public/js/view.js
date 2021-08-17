@@ -50,6 +50,10 @@ $("#screen").on("click", function (e) {
     });
 });
 
+$("#screen").on("dragstart", () => {
+    return false;
+});
+
 $(document).keyup((e) => {
     if(!isFocusedOnBrowserScreen()) return;
     e.preventDefault();
@@ -117,4 +121,15 @@ $("#web_browser_url_bar_form").on("submit", (e) => {
     let url = $("#web_browser_url_bar").val();
 
     socket.emit("goto", url);
+});
+
+$("#web_browser_navigation_go_back").click(() => {
+    socket.emit("go_back");
+});
+
+$("#web_browser_navigation_go_forward").click(() => {
+    socket.emit("go_forward");
+});
+$("#web_browser_navigation_reload").click(() => {
+    socket.emit("reload");
 });

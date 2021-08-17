@@ -1,6 +1,6 @@
 export default ({page, socket, cache}) => {
     socket.on("set_screen_size", async (data) => {
-        await page.setViewport(data);
+        await page.setViewport(data).catch(err => console.log("Couldn't set viewport!"));
         
         socket.emit("screen_size_updated");
 

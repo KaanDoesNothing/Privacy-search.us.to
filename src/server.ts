@@ -7,7 +7,7 @@ export const app: express = express();
 export const server = createServer(app);
 export const io: socketIO.Server = require("socket.io")(server);
 
-import "./lib/view_manager";
+import "./lib/view_manager/index";
 
 app.set("view engine", "pug");
 app.set("views", path.join(__dirname, "..", "/website/views"));
