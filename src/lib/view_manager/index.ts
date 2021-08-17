@@ -18,7 +18,6 @@ io.on("connection", async (socket) => {
     manager_navigation({page, socket});
 
     socket.on("disconnect", async () => {
-        clearInterval(cache["interval"]);
         await browser.close();
     });
 

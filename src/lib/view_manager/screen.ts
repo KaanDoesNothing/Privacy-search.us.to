@@ -1,12 +1,14 @@
 import { cache } from "./cache";
 
+let interval;
+
 export default ({page, socket}) => {
     socket.on("set_screen_size", async (data) => {
         await page.setViewport(data).catch(err => console.log("Couldn't set viewport!"));
         
         socket.emit("screen_size_updated");
 
-        cache["interval"] = setInterval(async () => {
+        interval = setInterval(async () => {
             try {
                 let viewport = page.viewport();
 
@@ -24,6 +26,10 @@ export default ({page, socket}) => {
                 console.log("Screenshot error");
             }
         }, 500);
+    });
+
+    socket.on("disconnect", () => {
+        clearInterval(interval);
     });
 
 }
