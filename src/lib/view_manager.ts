@@ -9,7 +9,7 @@ io.on("connection", async (socket) => {
     let interval;
     console.log("Connected");
 
-    let browser = await puppeteer.launch({headless: true, args: ["--no-sandbox"]});
+    let browser = await puppeteer.launch({headless: true, args: ["--no-sandbox --single-process"]});
     let page = (await browser.pages())[0];
 
     let blocker = await PuppeteerBlocker.fromPrebuiltAdsAndTracking(crossfetch);
@@ -28,6 +28,15 @@ io.on("connection", async (socket) => {
         }else if(data.type === "key" && data.action) {
             let key = keyboardMap[data.key];
 
+            if(key === "Up" || key === "Down") {
+                if(key === "Down") {
+                    page.evaluate(() => {
+                        window.scrollBy(0, 100); 
+                    });
+                }
+                return;
+            }
+
             if(data.action === "up") {
                 //@ts-ignore
                 page.keyboard.up(key).catch(err => console.log(`Error key: ${key}`));
@@ -35,23 +44,6 @@ io.on("connection", async (socket) => {
                 //@ts-ignore
                 page.keyboard.down(key).catch(err => console.log(`Error key: ${key}`));
             }
-            // let key = parseInt(data.key);
-            // let finalKey = "";
-            // if(key === 8) {
-            //     finalKey = "Backspace";
-            // }else if(key === 17) {
-            //     finalKey = "Control";
-            // } else {
-            //     finalKey = String.fromCharCode(parseInt(data.key)).toLowerCase();
-            // }
-
-            // if(data.action === "up") {
-            //     //@ts-ignore
-            //     page.keyboard.up(finalKey).catch(err => console.log(`Error key: ${key}`));
-            // }else {
-            //     //@ts-ignore
-            //     page.keyboard.down(finalKey).catch(err => console.log(`Error key: ${key}`));
-            // }
         }
     });
 

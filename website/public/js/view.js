@@ -1,33 +1,62 @@
 const socket = io();
 
-function getMousePosition() {
-    let event = window.event;
+let cache = new Map();
+
+let timeouts = {};
+
+function getMousePosition(self, e) {
+    // let event = window.event;
+
+    // return {
+    //     x: event.clientX,
+    //     y: event.clientY
+    // };
+
+    let parentOffset = $(self).parent().offset();
+
+    let x = e.pageX - parentOffset.left;
+    let y = e.pageY - parentOffset.top;
+
+    cache.set("mouse_position", {x, y});
+
+    console.log(x, y);
 
     return {
-        x: event.clientX,
-        y: event.clientY
-    };
+        x,
+        y
+    }
+}
+
+function isFocusedOnBrowserScreen() {
+    let mouse_position = cache.get("mouse_position");
+
+    let hoveringOver = document.elementFromPoint(mouse_position.x, mouse_position.y);
+
+    if(hoveringOver.id !== document.querySelector("#screen").id) return false;
+
+    return true;
 }
 
 $(document).on("scroll", (e) => {
     console.log(e);
 });
 
-$("#screen").on("mousemove", () => {
+$("#screen").on("mousemove", function (e) {
     socket.emit("input", {
         type: "mouse_move",
-        ...getMousePosition()
+        ...getMousePosition(this, e)
     });
 });
 
-$("#screen").on("click", () => {
+$("#screen").on("click", function (e) {
     socket.emit("input", {
         type: "mouse_click",
-        ...getMousePosition()
+        ...getMousePosition(this, e)
     });
 });
 
 $(document).keyup((e) => {
+    if(!isFocusedOnBrowserScreen()) return;
     e.preventDefault();
 
     socket.emit("input", {
@@ -38,6 +67,7 @@ $(document).keyup((e) => {
 });
 
 $(document).keydown((e) => {
+    if(!isFocusedOnBrowserScreen()) return;
     e.preventDefault();
 
     console.log(e.which);
@@ -66,13 +96,11 @@ socket.on("browser_loaded", () => {
 socket.on("screen_size_updated", () => {
     let query = new URLSearchParams(window.location.search);
 
-    console.log(query.has("url"));
+    let url = query.get("url") ?? "https://start.duckduckgo.com/";
 
-    if(query.has("url")) {
-        socket.emit("goto", query.get("url"));
-    }else {
-        socket.emit("goto", "https://www.duckduckgo.com/");
-    }
+    socket.emit("goto", url);
+
+    $("#web_browser_url_bar").val(url);
 });
 
 socket.on("update_frame", (image) => {
@@ -86,4 +114,12 @@ socket.on("update_frame", (image) => {
     };
 
     reader.readAsDataURL(blob);
+});
+
+$("#web_browser_url_bar_form").on("submit", (e) => {
+    e.preventDefault();
+
+    let url = $("#web_browser_url_bar").val();
+
+    socket.emit("goto", url);
 });

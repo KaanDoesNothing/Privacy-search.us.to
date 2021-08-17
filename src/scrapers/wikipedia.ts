@@ -6,7 +6,7 @@ export default class extends Scraper {
     
         const json = (await this.get({url: `https://en.wikipedia.org/w/api.php?action=query&origin=*&format=json&generator=search&gsrnamespace=0&gsrsearch='${this.query}'`}));
     
-        for(let i in json.query.pages) {
+        for(let i in json.query?.pages || []) {
             let page = json.query.pages[i];
     
             this.pushToResults({
