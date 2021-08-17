@@ -1,6 +1,6 @@
-import duckduckgo from "./scrapers/duckduckgo";
-import startpage from "./scrapers/startpage";
-import wikipedia from "./scrapers/wikipedia";
+import duckduckgo from "../../scrapers/duckduckgo";
+import startpage from "../../scrapers/startpage";
+import wikipedia from "../../scrapers/wikipedia";
 
 export const getResults = async ({query}) => {
     let results: any[] = await Promise.all([

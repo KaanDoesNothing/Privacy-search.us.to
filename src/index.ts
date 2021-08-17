@@ -4,7 +4,7 @@ dayjs.extend(duration);
 
 import {app, start, appVersion} from "./server";
 
-import {getResults} from "./scrape_manager";
+import {getResults} from "./lib/view_manager/scrape_manager";
 import { takeScreenshot } from "./utils";
 import { port } from "./config.json";
 
