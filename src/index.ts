@@ -4,7 +4,16 @@ import {app, start, appVersion} from "./server";
 
 import {getResults} from "./lib/view_manager/scrape_manager";
 import { takeScreenshot } from "./utils";
-import { port } from "./config.json";
+
+let port = parseInt(process.env.PORT) || 5000;
+
+try {
+    const config = require("./config.json");
+    port = config.port;
+}catch(err) {
+    console.log("Config file doesn't exist!");
+}
+
 
 app.use((req, res, done) => {
     res.locals.query = {};
