@@ -5,7 +5,7 @@
   "scripts": {
     "start": "node .",
     "tsc": "tsc",
-    "heroku-postbuild": "npm run tsc"
+    "postinstall": "npm run tsc"
   },
   "license": "MIT",
   "devDependencies": {
