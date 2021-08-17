@@ -29,6 +29,7 @@ export default ({page, socket}) => {
     });
 
     socket.on("disconnect", () => {
+        console.log("Disconnected.");
         clearInterval(interval);
     });
 
