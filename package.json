@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "./build/index.js",
   "scripts": {
-    "start": "tsc && node .",
+    "start": "node .",
     "build": "npm --prefix server run tsc && tsc"
   },
   "license": "MIT",
