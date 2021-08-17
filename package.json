@@ -3,8 +3,7 @@
   "version": "1.0.0",
   "main": "./build/index.js",
   "scripts": {
-    "start": "ts-node .",
-    "build": "npm --prefix server run tsc"
+    "start": "ts-node ."
   },
   "license": "MIT",
   "devDependencies": {
