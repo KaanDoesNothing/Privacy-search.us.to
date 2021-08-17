@@ -2,6 +2,9 @@
   "name": "SearchEngine",
   "version": "1.0.0",
   "main": "./build/index.js",
+  "scripts": {
+    "start": "tsc && node ."
+  },
   "license": "MIT",
   "dependencies": {
     "@cliqz/adblocker-puppeteer": "^1.22.4",

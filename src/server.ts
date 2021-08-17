@@ -13,7 +13,7 @@ app.set("view engine", "pug");
 app.set("views", path.join(__dirname, "..", "/website/views"));
 app.use("/static", express.static(path.join(__dirname, "..", "/website/public")));
 
-export const start = async (port: number = 7009) => {
+export const start = async (port: number = 3000) => {
   try {
     await server.listen(port)
   } catch (err) {

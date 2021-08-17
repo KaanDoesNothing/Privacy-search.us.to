@@ -1,4 +1,4 @@
-export default ({page, socket, cache}) => {
+export default ({page, socket}) => {
     socket.on("goto", async (url) => {
         await page.goto(url).catch(err => console.log("Browser disconnected!"));
     });
