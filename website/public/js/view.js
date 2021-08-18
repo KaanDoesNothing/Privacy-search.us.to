@@ -124,6 +124,15 @@ socket.on("update_frame", (image) => {
     reader.readAsDataURL(blob);
 });
 
+socket.on("event", (event) => {
+    switch(event.type) {
+        case "url_change":
+            $("#web_browser_url_bar").val(event.data);
+        default:
+            console.log("Hm");
+    }
+})
+
 $("#web_browser_url_bar_form").on("submit", (e) => {
     e.preventDefault();
 
