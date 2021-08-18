@@ -155,6 +155,11 @@ $("#web_browser_navigation_go_back").click(() => {
 $("#web_browser_navigation_go_forward").click(() => {
     socket.emit("go_forward");
 });
+
 $("#web_browser_navigation_reload").click(() => {
     socket.emit("reload");
+});
+
+$("#web_browser_navigation_go_home").click(() => {
+    socket.emit("goto", "https://start.duckduckgo.com/");
 });

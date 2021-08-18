@@ -20,14 +20,14 @@ html(lang="en")
                         img(src="/static/img/right.png")
                     a(class="navbar-item", id="web_browser_navigation_reload")
                         img(src="/static/img/recurring-appointment.png")
+                    a(class="navbar-item", id="web_browser_navigation_go_home")
+                        img(src="/static/img/home.png")
                 div(class="navbar-item")
                     form(id="web_browser_url_bar_form")
                         input(class="input is-darker", id="web_browser_url_bar") 
 
                 div(class="navbar-end")
                     label(class="navbar-item", id="status")="Status: Unknown"
-                    //- a(class="navbar-item button is-primary")="Go"
-                    //- a(class="navbar-item")="Close"
 
         div(id="web_browser")
             img(id="screen", onmousemove="getMousePosition")

@@ -5,7 +5,6 @@ import manager_screen from "./screen";
 import manager_navigation from "./navigation";
 import manager_page from "./page";
 import { cache } from "./cache";
-import path from "path/posix";
 
 io.on("connection", async (socket) => {
     socket.emit("event", {type: "status_change", data: "Starting"});
