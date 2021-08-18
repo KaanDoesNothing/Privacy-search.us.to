@@ -1,6 +1,8 @@
+import { Page } from "puppeteer";
+import { Socket } from "socket.io";
 import { cache } from "./cache";
 
-export default ({page, socket}) => {
+export default ({page, socket}: {page: Page, socket: Socket}) => {
     let interval;
 
     socket.on("set_screen_size", async (data) => {
@@ -21,12 +23,13 @@ export default ({page, socket}) => {
                     quality: 20,
                     type: "jpeg"
                 });
-        
+
                 socket.emit("update_frame", screenshot);
             }catch(err) {
+                console.log(err);
                 clearInterval(interval);
                 console.log("Screenshot error");
             }
-        }, 500);
+        }, 200);
     });
 }
