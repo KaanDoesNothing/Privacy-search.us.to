@@ -18,6 +18,10 @@ function getMousePosition(self, e) {
     }
 }
 
+function setStatus(text) {
+    $("#status").text(`Status: ${text}`);
+}
+
 function isFocusedOnBrowserScreen() {
     let mouse_position = cache.get("mouse_position");
 
@@ -28,31 +32,38 @@ function isFocusedOnBrowserScreen() {
     return true;
 }
 
-$(document).on("scroll", (e) => {
-    console.log(e);
-});
+function updateScreen(image) {
+    let blob = new Blob([image])
 
-$(document).on("wheel", (e) => {
-    console.log(e);
-});
+    let reader = new FileReader();
+    reader.onload = function (event) {
+        let base64 = event.target.result
+        let img = document.querySelector("#screen");
+        img.src = base64;
+    };
 
-$("#screen").on("mousemove", function (e) {
-    socket.emit("input", {
-        type: "mouse_move",
-        ...getMousePosition(this, e)
-    });
-});
+    reader.readAsDataURL(blob);
+}
 
-$("#screen").on("click", function (e) {
-    socket.emit("input", {
-        type: "mouse_click",
-        ...getMousePosition(this, e)
-    });
-});
+function updateScreenSize() {
+    let query = new URLSearchParams(window.location.search);
 
-$("#screen").on("dragstart", () => {
-    return false;
-});
+    let url = query.get("url") ?? "https://start.duckduckgo.com/";
+
+    socket.emit("goto", url);
+
+    $("#web_browser_url_bar").val(url);
+}
+
+function browserLoaded() {
+    let body = document.querySelector("#screen");
+    let data = {
+        width: $("#screen").width(),
+        height: $(document).height() - $(".navbar").height()
+        // height: $("#screen").height()
+    };
+    socket.emit("set_screen_size", data);
+}
 
 $(document).keyup((e) => {
     if(!isFocusedOnBrowserScreen()) return;
@@ -79,59 +90,55 @@ $(document).keydown((e) => {
 });
 
 socket.on("connection", () => {
-    console.log("Conencted");
+    setStatus("Connected");
 });
 
 socket.on("disconnect", () => {
     $("#status").text("Status: Disconnected");
 });
 
-socket.on("status", (status) => {
-    $("#status").text(`Status: ${status}`);
-});
-
-socket.on("browser_loaded", () => {
-    let body = document.querySelector("#screen");
-    let data = {
-        width: $("#screen").width(),
-        height: $(document).height() - $(".navbar").height()
-        // height: $("#screen").height()
-    };
-    console.log(data);
-    socket.emit("set_screen_size", data);
-});
-
-socket.on("screen_size_updated", () => {
-    let query = new URLSearchParams(window.location.search);
-
-    let url = query.get("url") ?? "https://start.duckduckgo.com/";
-
-    socket.emit("goto", url);
-
-    $("#web_browser_url_bar").val(url);
-});
-
-socket.on("update_frame", (image) => {
-    var blob = new Blob([image])
-
-    var reader = new FileReader();
-    reader.onload = function (event) {
-        var base64 = event.target.result
-        let img = document.querySelector("#screen");
-        img.src = base64;
-    };
-
-    reader.readAsDataURL(blob);
-});
-
 socket.on("event", (event) => {
+    console.log(`Received event: ${event.type}`);
+    
     switch(event.type) {
         case "url_change":
             $("#web_browser_url_bar").val(event.data);
+            break;
+        case "status_change":
+            setStatus(event.data);
+            break;
+        case "update_screen":
+            updateScreen(event.data);
+            break;
+        case "update_screen_size":
+            updateScreenSize();
+            break;
+        case "browser_loaded":
+            browserLoaded();
+            break;
         default:
             console.log("Hm");
+            break;
     }
-})
+});
+
+$("#screen").on("mousemove", function (e) {
+    socket.emit("input", {
+        type: "mouse_move",
+        ...getMousePosition(this, e)
+    });
+});
+
+$("#screen").on("click", function (e) {
+    socket.emit("input", {
+        type: "mouse_click",
+        ...getMousePosition(this, e)
+    });
+});
+
+$("#screen").on("dragstart", () => {
+    return false;
+});
 
 $("#web_browser_url_bar_form").on("submit", (e) => {
     e.preventDefault();

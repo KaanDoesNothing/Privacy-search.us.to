@@ -8,7 +8,7 @@ export default ({page, socket}: {page: Page, socket: Socket}) => {
     socket.on("set_screen_size", async (data) => {
         await page.setViewport(data).catch(err => console.log("Couldn't set viewport!"));
         
-        socket.emit("screen_size_updated");
+        socket.emit("event", {type: "update_screen_size"});
 
         interval = setInterval(async () => {
             try {
@@ -24,7 +24,7 @@ export default ({page, socket}: {page: Page, socket: Socket}) => {
                     type: "jpeg"
                 });
 
-                socket.emit("update_frame", screenshot);
+                socket.emit("event", {type: "update_screen", data: screenshot});
             }catch(err) {
                 console.log(err);
                 clearInterval(interval);
