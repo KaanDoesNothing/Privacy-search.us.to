@@ -1,1 +1,1 @@
-export let cache = {};
+export let cache = new Map();

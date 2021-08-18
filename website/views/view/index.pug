@@ -14,16 +14,65 @@ html(lang="en")
         nav(class="navbar is-dark")
             div(class="navbar-menu")
                 div(class="navbar-start")
-                    a(class="navbar-item", id="web_browser_navigation_go_back")="<="
-                    a(class="navbar-item", id="web_browser_navigation_go_forward")="=>"
-                    a(class="navbar-item", id="web_browser_navigation_reload")="Reload"
-
+                    a(class="navbar-item", id="web_browser_navigation_go_back")
+                        img(src="https://img.icons8.com/material-rounded/24/FFFFFF/left.png")
+                    a(class="navbar-item", id="web_browser_navigation_go_forward")
+                        img(src="https://img.icons8.com/material-rounded/24/FFFFFF/right.png")
+                    a(class="navbar-item", id="web_browser_navigation_reload")
+                        img(src="https://img.icons8.com/material-rounded/20/FFFFFF/recurring-appointment.png")
                 div(class="navbar-item")
                     form(id="web_browser_url_bar_form")
-                        input(class="input", style="width: 300px !important;", id="web_browser_url_bar")
+                        input(class="input is-darker", id="web_browser_url_bar") 
+
                 div(class="navbar-end")
+                    //- a(class="navbar-item button is-primary")="Go"
                     //- a(class="navbar-item")="Close"
 
-        div(id="web_browser", style="display: table; overflow: hidden; width: 100%; height: 100%;")
-            img(id="screen", style="width: 100%; height: 100%;", onmousemove="getMousePosition")
-            script(defer, src="/static/js/view.js")
+        div(id="web_browser")
+            img(id="screen", onmousemove="getMousePosition")
+        script(defer, src="/static/js/view.js")
+
+        style.
+            .is-dark {
+                background-color: #35363A !important;
+            }
+
+            .is-darker {
+                background-color: #292A2D !important;
+                color: #FFFFFF;
+            }
+
+            body::-webkit-scrollbar {
+                display: none;
+            }
+
+            body {
+                -ms-overflow-style: none;
+                scrollbar-width: none;
+            }
+
+            .navbar {
+                min-height: 0px;
+            }
+
+            .navbar-menu {
+                padding: 0px !important; 
+            }
+
+            #web_browser {
+                display: table;
+                overflow: hidden;
+                width: 100%;
+                height: 100%;
+            }
+
+            #screen {
+                width: 100%;
+                height: 100%;
+            }
+
+            #web_browser_url_bar {
+                width: 500px;
+                height: 30px !important;
+                border-radius: 20px;
+            }

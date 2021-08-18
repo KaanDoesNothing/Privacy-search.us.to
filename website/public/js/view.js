@@ -86,7 +86,8 @@ socket.on("browser_loaded", () => {
     let body = document.querySelector("#screen");
     let data = {
         width: $("#screen").width(),
-        height: $("#screen").height()
+        height: $(document).height() - $(".navbar").height()
+        // height: $("#screen").height()
     };
     console.log(data);
     socket.emit("set_screen_size", data);

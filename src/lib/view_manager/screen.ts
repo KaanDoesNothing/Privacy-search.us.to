@@ -24,6 +24,7 @@ export default ({page, socket}) => {
         
                 socket.emit("update_frame", screenshot);
             }catch(err) {
+                clearInterval(interval);
                 console.log("Screenshot error");
             }
         }, 500);
