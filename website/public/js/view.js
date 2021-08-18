@@ -82,6 +82,14 @@ socket.on("connection", () => {
     console.log("Conencted");
 });
 
+socket.on("disconnect", () => {
+    $("#status").text("Status: Disconnected");
+});
+
+socket.on("status", (status) => {
+    $("#status").text(`Status: ${status}`);
+});
+
 socket.on("browser_loaded", () => {
     let body = document.querySelector("#screen");
     let data = {

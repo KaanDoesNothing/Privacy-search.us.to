@@ -7,11 +7,14 @@ import manager_page from "./page";
 import { cache } from "./cache";
 
 io.on("connection", async (socket) => {
+    socket.emit("status", "Starting");
+    
     let browser = await manager_browser();
     let page = await manager_page(browser);
 
     cache.set(socket.id, browser);
 
+    socket.emit("status", "Running");
     socket.emit("browser_loaded", true);
 
     manager_input({browser, page, socket});
