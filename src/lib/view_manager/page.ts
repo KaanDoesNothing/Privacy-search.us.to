@@ -3,7 +3,7 @@ import applyEvasions from "../applyEvasions";
 import fetch from "cross-fetch";
 
 export default async (browser) => {
-    let page = (await browser.pages())[0];
+    let page = await browser.newPage();
 
     let blocker = await PuppeteerBlocker.fromPrebuiltAdsAndTracking(fetch);
     
