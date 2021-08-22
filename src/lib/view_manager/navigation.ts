@@ -2,6 +2,7 @@ import { fixURL } from "../../utils";
 
 export default ({page, socket}) => {
     socket.on("goto", async (url) => {
+        console.log(url);
         await page.goto(fixURL(url)).catch(err => console.log("Browser disconnected!"));
     });
 

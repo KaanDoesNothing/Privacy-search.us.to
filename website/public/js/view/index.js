@@ -65,6 +65,10 @@ function browserLoaded() {
     socket.emit("set_screen_size", data);
 }
 
+function urlChange(url) {
+    $("#web_browser_url_bar").val(url);
+}
+
 $(document).keyup((e) => {
     if(!isFocusedOnBrowserScreen()) return;
     e.preventDefault();
@@ -97,12 +101,14 @@ socket.on("disconnect", () => {
     $("#status").text("Status: Disconnected");
 });
 
+socket.on("update_screen", (image) => updateScreen(image));
+
 socket.on("event", (event) => {
     console.log(`Received event: ${event.type}`);
     
     switch(event.type) {
         case "url_change":
-            $("#web_browser_url_bar").val(event.data);
+            urlChange(event.data);
             break;
         case "status_change":
             setStatus(event.data);
@@ -161,5 +167,9 @@ $("#web_browser_navigation_reload").click(() => {
 });
 
 $("#web_browser_navigation_go_home").click(() => {
-    socket.emit("goto", "https://start.duckduckgo.com/");
+    socket.emit("goto", "https://duckduckgo.com/");
 });
+
+setInterval(() => {
+    $("#screen").attr("src", `/view/screen/${socket.id}?time=${Date.now()}`);
+}, 200)
